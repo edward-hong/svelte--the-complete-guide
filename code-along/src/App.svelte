@@ -1,10 +1,15 @@
 <script>
-	export let name;
+	let name = 'Edward'
+	let age = 30
+
+	function incrementAge() {
+		age+=1
+	}
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<h1>Hello {name}, my age is {age}!</h1>
+	<button on:click={incrementAge}>Change Age</button>
 </main>
 
 <style>
