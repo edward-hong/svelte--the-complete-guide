@@ -1,19 +1,26 @@
 <script>
-	let name = 'Edward'
-	let age = 30
+  let name = 'Edward'
+  let age = 30
 
-	function incrementAge() {
-		age+=1
-	}
+  $: uppercaseName = name.toUpperCase()
+
+  function incrementAge() {
+    age += 1
+  }
+
+  function changeName() {
+    name = 'Ed'
+  }
 </script>
 
-<main>
-	<h1>Hello {name}, my age is {age}!</h1>
-	<button on:click={incrementAge}>Change Age</button>
-</main>
-
 <style>
-	h1 {
-		color: purple;
-	}
+  h1 {
+    color: purple;
+  }
 </style>
+
+<main>
+  <h1>Hello {uppercaseName}, my age is {age}!</h1>
+  <button on:click={incrementAge}>Change Age</button>
+  <button on:click={changeName}>Change Name</button>
+</main>
