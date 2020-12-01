@@ -70,25 +70,21 @@
       id="title"
       label="Title"
       value={title}
-      type="text"
       on:input={(e) => (title = e.target.value)} />
     <TextInput
       id="subtitle"
       label="Subtitle"
       value={subtitle}
-      type="text"
       on:input={(e) => (subtitle = e.target.value)} />
     <TextInput
       id="address"
       label="Address"
       value={address}
-      type="text"
       on:input={(e) => (address = e.target.value)} />
     <TextInput
       id="imageUrl"
       label="Image URL"
       value={imageUrl}
-      type="text"
       on:input={(e) => (imageUrl = e.target.value)} />
     <TextInput
       id="email"
