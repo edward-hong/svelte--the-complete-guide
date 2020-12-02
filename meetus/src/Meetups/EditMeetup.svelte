@@ -65,5 +65,5 @@
     value={description}
     controlType="textarea"
     on:input={(e) => (description = e.target.value)} />
-  <Button type="submit" caption="Save" />
+  <Button type="submit">Save</Button>
 </form>
