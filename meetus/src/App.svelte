@@ -58,6 +58,10 @@
     updatedMeetups[meetupIndex] = updatedMeetup
     meetups = updatedMeetups
   }
+
+  function cancelEdit() {
+    editMode = null
+  }
 </script>
 
 <style>
@@ -77,7 +81,7 @@
     <Button on:click={() => (editMode = 'add')}>New Meetup</Button>
   </div>
   {#if editMode === 'add'}
-    <EditMeetup on:save={addMeetup} />
+    <EditMeetup on:save={addMeetup} on:cancel={cancelEdit} />
   {/if}
   <MeetupGrid {meetups} on:togglefavourite={toggleFavourite} />
 </main>
