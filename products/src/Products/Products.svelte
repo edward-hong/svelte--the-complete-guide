@@ -28,7 +28,7 @@
 
 <section>
   <h1>Products</h1>
-  {#each products as product (product.id)}
+  {#each $products as product (product.id)}
     <Product
       id={product.id}
       title={product.title}
