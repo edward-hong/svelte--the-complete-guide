@@ -1,4 +1,5 @@
 <script>
+  import cartItems from '../Cart/cart-store.js'
   import Button from '../UI/Button.svelte'
 
   export let id
@@ -7,8 +8,9 @@
   export let description
 
   function addToCart() {
-    // Now what?
-    console.log(id)
+    cartItems.update((items) => {
+      return [...items, { id, title, price }]
+    })
   }
 </script>
 
