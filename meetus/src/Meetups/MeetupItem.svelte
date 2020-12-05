@@ -13,6 +13,8 @@
   export let email
   export let isFav
 
+  const dispatch = createEventDispatcher()
+
   function toggleFavourite() {
     meetups.toggleFavourite(id)
   }
@@ -102,6 +104,8 @@
       on:click={toggleFavourite}>
       {isFav ? 'Unfavourite' : 'Favourite'}
     </Button>
-    <Button type="button">Show details</Button>
+    <Button type="button" on:click={() => dispatch('showdetails', id)}>
+      Show details
+    </Button>
   </footer>
 </article>
