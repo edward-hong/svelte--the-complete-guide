@@ -10,8 +10,7 @@
   function addMeetup({
     detail: { title, subtitle, description, imageUrl, email, address },
   }) {
-    const newMeetup = {
-      id: Math.random().toString(),
+    const meetupData = {
       title,
       subtitle,
       description,
@@ -20,18 +19,13 @@
       address,
     }
 
-    meetups = [newMeetup, ...meetups]
+    meetups.addMeetup(meetupData)
     editMode = null
   }
 
   function toggleFavourite(event) {
     const id = event.detail
-    const updatedMeetup = { ...meetups.find((m) => m.id === id) }
-    updatedMeetup.isFavourite = !updatedMeetup.isFavourite
-    const meetupIndex = meetups.findIndex((m) => m.id === id)
-    const updatedMeetups = [...meetups]
-    updatedMeetups[meetupIndex] = updatedMeetup
-    meetups = updatedMeetups
+    meetups.toggleFavourite(id)
   }
 
   function cancelEdit() {
