@@ -2,6 +2,7 @@
   import { writable } from 'svelte/store'
   import { tweened } from 'svelte/motion'
   import { cubicIn } from 'svelte/easing'
+  import { fade, fly, slide, scale } from 'svelte/transition'
 
   import Spring from './Spring.svelte'
 
@@ -21,6 +22,10 @@
 
   function addBox() {
     boxes = [...boxes, boxInput.value]
+  }
+
+  function discard(value) {
+    boxes = boxes.filter((el) => el !== value)
   }
 </script>
 
@@ -43,5 +48,7 @@
 <button on:click={addBox}>Add</button>
 
 {#each boxes as box (box)}
-  <div>{box}</div>
+  <div transition:fly={{ x: 200, y: 0 }} on:click={discard.bind(this, box)}>
+    {box}
+  </div>
 {/each}
