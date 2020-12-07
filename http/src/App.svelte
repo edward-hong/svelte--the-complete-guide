@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte'
+  import hobbyStore from './hobby-store.js'
 
   let hobbies = []
   let hobbyInput
@@ -17,7 +18,8 @@
     })
     .then((data) => {
       isLoading = false
-      hobbies = Object.values(data)
+      // hobbies = Object.values(data)
+      hobbyStore.setHobbies(Object.values(data))
       let keys = Object.keys(data)
       console.log(keys)
 
@@ -33,7 +35,8 @@
     })
 
   function addHobby() {
-    hobbies = [...hobbies, hobbyInput.value]
+    // hobbies = [...hobbies, hobbyInput.value]
+    hobbyStore.addHobby(hobbyInput.value)
 
     isLoading = true
     fetch(
@@ -52,6 +55,7 @@
           throw new Error('Failed!')
         }
         alert('Saved Data!')
+        // res.json() => Promise with an object that contains the id
       })
       .catch((err) => {
         isLoading = false
@@ -68,7 +72,7 @@
   <p>Loading...</p>
 {:else}
   <ul>
-    {#each hobbies as hobby}
+    {#each $hobbyStore as hobby}
       <li>{hobby}</li>
     {/each}
   </ul>
