@@ -1,27 +1,36 @@
 <script>
+  import { onMount } from 'svelte'
+
   let hobbies = []
   let hobbyInput
   let isLoading = false
 
-  fetch('https://svelte-course-20eec-default-rtdb.firebaseio.com/hobbies.json')
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error('Failed!')
-      }
-      return res.json()
-    })
-    .then((data) => {
-      hobbies = Object.values(data)
-      let keys = Object.keys(data)
-      console.log(keys)
+  onMount(() => {
+    isLoading = true
+    fetch(
+      'https://svelte-course-20eec-default-rtdb.firebaseio.com/hobbies.json',
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed!')
+        }
+        return res.json()
+      })
+      .then((data) => {
+        isLoading = false
+        hobbies = Object.values(data)
+        let keys = Object.keys(data)
+        console.log(keys)
 
-      for (const key in data) {
-        console.log(key, data[key])
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+        for (const key in data) {
+          console.log(key, data[key])
+        }
+      })
+      .catch((err) => {
+        isLoading = false
+        console.log(err)
+      })
+  })
 
   function addHobby() {
     hobbies = [...hobbies, hobbyInput.value]
