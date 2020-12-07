@@ -5,32 +5,32 @@
   let hobbyInput
   let isLoading = false
 
-  onMount(() => {
-    isLoading = true
-    fetch(
-      'https://svelte-course-20eec-default-rtdb.firebaseio.com/hobbies.json',
-    )
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed!')
-        }
-        return res.json()
-      })
-      .then((data) => {
-        isLoading = false
-        hobbies = Object.values(data)
-        let keys = Object.keys(data)
-        console.log(keys)
+  isLoading = true
+  let getHobbies = fetch(
+    'https://svelte-course-20eec-default-rtdb.firebaseio.com/hobbies.json',
+  )
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error('Failed!')
+      }
+      return res.json()
+    })
+    .then((data) => {
+      isLoading = false
+      hobbies = Object.values(data)
+      let keys = Object.keys(data)
+      console.log(keys)
 
-        for (const key in data) {
-          console.log(key, data[key])
-        }
-      })
-      .catch((err) => {
-        isLoading = false
-        console.log(err)
-      })
-  })
+      for (const key in data) {
+        console.log(key, data[key])
+      }
+
+      return hobbies
+    })
+    .catch((err) => {
+      isLoading = false
+      console.log(err)
+    })
 
   function addHobby() {
     hobbies = [...hobbies, hobbyInput.value]
@@ -73,3 +73,15 @@
     {/each}
   </ul>
 {/if}
+
+<!-- {#await getHobbies}
+  <p>isLoading...</p>
+{:then hobbyData}
+  <ul>
+    {#each hobbyData as hobby}
+      <li>{hobby}</li>
+    {/each}
+  </ul>
+{:catch error}
+  <p>{error.message}</p>
+{/await} -->
