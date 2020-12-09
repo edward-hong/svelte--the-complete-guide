@@ -56,7 +56,23 @@
     }
 
     if (id) {
-      meetups.updateMeetup(id, meetupData)
+      fetch(
+        `https://svelte-course-20eec-default-rtdb.firebaseio.com/meetups/${id}.json`,
+        {
+          method: 'PATCH',
+          body: JSON.stringify(meetupData),
+          headers: { 'Content-type': 'application/json' },
+        },
+      )
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('An error occurred, please try again!')
+          }
+          meetups.updateMeetup(id, meetupData)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     } else {
       fetch(
         'https://svelte-course-20eec-default-rtdb.firebaseio.com/meetups.json',
