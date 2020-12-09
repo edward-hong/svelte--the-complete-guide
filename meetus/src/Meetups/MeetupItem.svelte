@@ -16,7 +16,23 @@
   const dispatch = createEventDispatcher()
 
   function toggleFavourite() {
-    meetups.toggleFavourite(id)
+    fetch(
+      `https://svelte-course-20eec-default-rtdb.firebaseio.com/meetups/${id}.json`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({ isFavourite: !isFav }),
+        headers: { 'Content-type': 'application/json' },
+      },
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('An error occurred, please try again!')
+        }
+        meetups.toggleFavourite(id)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 </script>
 
