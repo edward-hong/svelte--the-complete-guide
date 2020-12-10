@@ -38,7 +38,6 @@
 
   export let fetchedMeetups
 
-  let loadedMeetups = []
   let editMode
   let editedId
   let isLoading
@@ -49,14 +48,14 @@
   let unsubscribe
 
   $: filteredMeetups = favsOnly
-    ? loadedMeetups.filter((m) => m.isFavourite)
-    : loadedMeetups
+    ? fetchedMeetups.filter((m) => m.isFavourite)
+    : fetchedMeetups
 
   onMount(() => {
-    unsubscribe = meetups.subscribe((items) => {
-      loadedMeetups = items
-    })
     meetups.setMeetups(fetchedMeetups)
+    unsubscribe = meetups.subscribe((items) => {
+      fetchedMeetups = items
+    })
   })
 
   onDestroy(() => {
