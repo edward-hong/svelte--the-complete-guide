@@ -1,5 +1,6 @@
 <script context="module">
   export function preload() {
+    console.log('Preloading...')
     return this.fetch(`blog.json`)
       .then((r) => r.json())
       .then((posts) => {
@@ -14,8 +15,12 @@
 
   console.log('Executing!')
 
+  // fetch()
+
   onMount(() => {
     console.log('Mounted')
+
+    // fetch()
   })
 </script>
 
