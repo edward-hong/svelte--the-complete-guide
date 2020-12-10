@@ -1,5 +1,32 @@
+<script context="module">
+  export function preload(page) {
+    return this.fetch(
+      'https://svelte-course-20eec-default-rtdb.firebaseio.com/meetups.json',
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Fetching meetups failed, please try again later!')
+        }
+        return res.json()
+      })
+      .then((data) => {
+        const loadedMeetups = []
+        for (const key in data) {
+          loadedMeetups.push({ id: key, ...data[key] })
+        }
+        return { fetchedMeetups: loadedMeetups }
+      })
+      .catch((err) => {
+        error = err
+        isLoading = false
+        console.log(err)
+        this.error(500, 'Could not fetch meetups!')
+      })
+  }
+</script>
+
 <script>
-  import { createEventDispatcher, onMount, onDestroy } from 'svelte'
+  import { createEventDispatcher, onMount } from 'svelte'
   import { scale } from 'svelte/transition'
   import { flip } from 'svelte/animate'
   import MeetupItem from '../components/Meetup/MeetupItem.svelte'
@@ -9,7 +36,7 @@
   import LoadingSpinner from '../components/UI/LoadingSpinner.svelte'
   import meetups from '../meetups-store'
 
-  let fetchedMeetups = []
+  export let fetchedMeetups
   let editMode
   let editedId
   let isLoading
@@ -24,38 +51,7 @@
     : fetchedMeetups
 
   onMount(() => {
-    unsubscribe = meetups.subscribe((items) => (fetchedMeetups = items))
-    isLoading = true
-    fetch(
-      'https://svelte-course-20eec-default-rtdb.firebaseio.com/meetups.json',
-    )
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Fetching meetups failed, please try again later!')
-        }
-        return res.json()
-      })
-      .then((data) => {
-        const loadedMeetups = []
-        for (const key in data) {
-          loadedMeetups.push({ id: key, ...data[key] })
-        }
-        setTimeout(() => {
-          isLoading = false
-          meetups.setMeetups(loadedMeetups.reverse())
-        }, 1000)
-      })
-      .catch((err) => {
-        error = err
-        isLoading = false
-        console.log(err)
-      })
-  })
-
-  onDestroy(() => {
-    if (unsubscribe) {
-      unsubscribe()
-    }
+    meetups.setMeetups(fetchedMeetups)
   })
 
   function setFilter(event) {
