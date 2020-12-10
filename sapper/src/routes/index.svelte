@@ -26,7 +26,7 @@
 </script>
 
 <script>
-  import { createEventDispatcher, onMount } from 'svelte'
+  import { createEventDispatcher, onMount, onDestroy } from 'svelte'
   import { scale } from 'svelte/transition'
   import { flip } from 'svelte/animate'
   import MeetupItem from '../components/Meetup/MeetupItem.svelte'
@@ -37,6 +37,8 @@
   import meetups from '../meetups-store'
 
   export let fetchedMeetups
+
+  let loadedMeetups = []
   let editMode
   let editedId
   let isLoading
@@ -47,11 +49,20 @@
   let unsubscribe
 
   $: filteredMeetups = favsOnly
-    ? fetchedMeetups.filter((m) => m.isFavourite)
-    : fetchedMeetups
+    ? loadedMeetups.filter((m) => m.isFavourite)
+    : loadedMeetups
 
   onMount(() => {
+    unsubscribe = meetups.subscribe((items) => {
+      loadedMeetups = items
+    })
     meetups.setMeetups(fetchedMeetups)
+  })
+
+  onDestroy(() => {
+    if (unsubscribe) {
+      unsubscribe()
+    }
   })
 
   function setFilter(event) {
@@ -71,6 +82,10 @@
   function startEdit(event) {
     editMode = 'edit'
     editedId = event.detail
+  }
+
+  function startAdd() {
+    editMode = 'edit'
   }
 </script>
 
@@ -111,7 +126,7 @@
 {:else}
   <section id="meetup-controls">
     <MeetupFilter on:select={setFilter} />
-    <Button on:click={() => dispatch('add')}>New Meetup</Button>
+    <Button on:click={startAdd}>New Meetup</Button>
   </section>
   {#if filteredMeetups.length === 0}
     <p id="no-meetups">No meetups found, you can start adding some</p>
