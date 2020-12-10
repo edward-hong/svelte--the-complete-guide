@@ -1,5 +1,5 @@
 <script>
-  import meetups from './meetups-store.js'
+  import meetups from '../../meetups-store.js'
   import { createEventDispatcher } from 'svelte'
   import Button from '../UI/Button.svelte'
   import Badge from '../UI/Badge.svelte'
