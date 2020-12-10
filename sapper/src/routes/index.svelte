@@ -14,7 +14,7 @@
         for (const key in data) {
           loadedMeetups.push({ id: key, ...data[key] })
         }
-        return { fetchedMeetups: loadedMeetups }
+        return { fetchedMeetups: loadedMeetups.reverse() }
       })
       .catch((err) => {
         error = err
@@ -143,8 +143,7 @@
           email={meetup.contactEmail}
           address={meetup.address}
           isFav={meetup.isFavourite}
-          on:showdetails
-          on:edit />
+          on:edit={startEdit} />
       </div>
     {/each}
   </section>
